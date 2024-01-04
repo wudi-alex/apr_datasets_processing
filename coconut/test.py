@@ -3,7 +3,7 @@ import os
 os.environ['TRANSFORMERS_CACHE'] = '/datasets/Large_Language_Models'
 from datasets import load_dataset, load_from_disk
 
-dataset = load_dataset('data/apr_rlhf_coconut', split='train')
+dataset = load_from_disk('data/apr_rlhf_coconut')
 
 
 def process(sample):
