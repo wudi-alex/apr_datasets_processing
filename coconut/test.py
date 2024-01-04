@@ -5,6 +5,7 @@ from datasets import load_dataset, load_from_disk
 
 dataset = load_from_disk('data/apr_rlhf_coconut')
 
+print(dataset['train'][0])['prompt']
 
 def process(sample):
     pre, suffix = sample['prompt'].split('<FILL_ME>')[0], sample['prompt'].split('<FILL_ME>')[1]
