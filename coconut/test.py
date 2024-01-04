@@ -7,7 +7,7 @@ dataset = load_from_disk('data/apr_rlhf_coconut')
 
 
 def process(sample):
-    pre, suffix = sample['prompt'].split('<FILL_ME>')[0], sample.split('<FILL_ME>')[0]
+    pre, suffix = sample['prompt'].split('<FILL_ME>')[0], sample['prompt'].split('<FILL_ME>')[1]
     sample['prompt'] = "<PRE> " + pre + " <SUF>" + suffix + " <MID>"
     return sample
 
