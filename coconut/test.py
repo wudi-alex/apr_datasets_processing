@@ -10,6 +10,7 @@ tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME, token=TOKEN)
 
 
 def get_token_len(input):
+    print(input)
     input_tokens = tokenizer(input, return_tensors="pt")["input_ids"]
     return len(input_tokens[0])
 
@@ -34,9 +35,10 @@ def process_dschat(sample):
     return sample
 
 
+print('process')
 rm_dataset = rm_dataset.map(process_dschat)
 rm_dataset = rm_dataset.rename_columns({'rem_patch': 'rejected', 'add_patch': 'chosen'})
-rm_dataset = rm_dataset.remove_columns(['rem', 'add', 'context', 'formatted_context','infill_context',])
+rm_dataset = rm_dataset.remove_columns(['rem', 'add', 'context', 'formatted_context', 'infill_context',])
 print('filter lenghth')
 rm_dataset = rm_dataset.filter(
     lambda x: get_token_len(x['prompt']) <= 500 and get_token_len(x['prompt']) > 20 and get_token_len(
