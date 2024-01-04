@@ -11,6 +11,8 @@ tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME, token=TOKEN)
 
 def get_token_len(input):
     try:
+        if input is None:
+            return 10000
         input_tokens = tokenizer(input, return_tensors="pt")["input_ids"]
         return len(input_tokens[0])
     except:
@@ -49,3 +51,4 @@ rm_dataset = rm_dataset.filter(
 rm_dataset = rm_dataset.train_test_split(test_size=0.05)
 rm_dataset.save_to_disk(f"data/apr_rlhf_coconut")
 print(rm_dataset['train'][0])
+print(rm_dataset)
