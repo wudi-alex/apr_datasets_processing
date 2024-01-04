@@ -10,9 +10,12 @@ tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME, token=TOKEN)
 
 
 def get_token_len(input):
-    print(input)
-    input_tokens = tokenizer(input, return_tensors="pt")["input_ids"]
-    return len(input_tokens[0])
+    try:
+        input_tokens = tokenizer(input, return_tensors="pt")["input_ids"]
+        return len(input_tokens[0])
+    except:
+        print(input)
+        return 10000
 
 
 reformat_dataset = load_from_disk('data/reformatted_coconut')
