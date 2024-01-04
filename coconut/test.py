@@ -22,10 +22,6 @@ rm_dataset = reformat_dataset.filter(lambda x: x['add_patch'] != None).filter(
 print('filter infill context')
 rm_dataset = reformat_dataset.filter(lambda x: x['infill_context'] != None).filter(
     lambda x: x['infill_context'].count('<INFILL>') == 1)
-print('filter lenghth')
-rm_dataset = rm_dataset.filter(
-    lambda x: get_token_len(x['prompt']) <= 500 and get_token_len(x['prompt']) > 20 and get_token_len(
-        x['chosen']) <= 100 and get_token_len(x['rejected']) <= 100)
 print('filter protected')
 rm_dataset = rm_dataset.filter(
     lambda x: 'protected' not in x['rem_patch'] and 'private' not in x['rem_patch'] and 'public' not in x['rem_patch'])
@@ -40,6 +36,11 @@ def process_dschat(sample):
 
 rm_dataset = rm_dataset.map(process_dschat)
 rm_dataset = rm_dataset.rename_columns({'rem_patch': 'rejected', 'add_patch': 'chosen'})
+rm_dataset = rm_dataset.remove_columns(['rem', 'add', 'context', 'formatted_context','infill_context',])
+print('filter lenghth')
+rm_dataset = rm_dataset.filter(
+    lambda x: get_token_len(x['prompt']) <= 500 and get_token_len(x['prompt']) > 20 and get_token_len(
+        x['chosen']) <= 100 and get_token_len(x['rejected']) <= 100)
 rm_dataset = rm_dataset.train_test_split(test_size=0.05)
 rm_dataset.save_to_disk(f"data/apr_rlhf_coconut")
 print(rm_dataset['train'][0])
