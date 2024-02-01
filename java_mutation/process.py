@@ -28,7 +28,7 @@ lengths = [len(example["input"]) for example in dataset]
 quantile_80 = np.percentile(lengths, 80)
 
 # 过滤数据集
-dataset = dataset.filter(lambda example: len(example["your_column_name"]) <= quantile_80)
+dataset = dataset.filter(lambda example: len(example["input"]) <= quantile_80)
 print('filtered')
 
 dataset = dataset.train_test_split(test_size=0.05)
