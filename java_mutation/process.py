@@ -18,7 +18,7 @@ def get_token_len(input):
 
 
 dataset = dataset.filter(
-    lambda x: get_token_len(x['input']) < 1024 and get_token_len(x['output']) < 100, num_proc=20)
+    lambda x: get_token_len(x['input']) < 1024, num_proc=40)
 
 dataset = dataset.train_test_split(test_size=0.05)
 
