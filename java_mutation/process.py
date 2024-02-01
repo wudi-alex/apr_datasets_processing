@@ -17,15 +17,19 @@ def get_token_len(input):
     return len(input_tokens[0])
 
 
-def token_len(sample):
-    sample['input_len'] = get_token_len(sample['input'])
-    sample['output_len'] = get_token_len(sample['output'])
-    return sample
+
+import numpy as np
 
 
-dataset = dataset.map(token_len)
-dataset.save_to_disk('data/classinfo_mutation_full')
-print('token len done.')
+# 计算每个样本的字符串长度
+lengths = [len(example["input"]) for example in dataset]
+
+# 计算80%分位数
+quantile_80 = np.percentile(lengths, 80)
+
+# 过滤数据集
+dataset = dataset.filter(lambda example: len(example["your_column_name"]) <= quantile_80)
+print('filtered')
 
 dataset = dataset.train_test_split(test_size=0.05)
 
