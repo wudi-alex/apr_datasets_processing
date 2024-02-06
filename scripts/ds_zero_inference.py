@@ -231,7 +231,7 @@ def run_generation(
     print(f"{output_path} dataset saved")
 
 
-if __name__ == 'main':
+if __name__ == '__main__':
     MODEL_PATH = '/projects/ksun3/dwu25/trained_models/classinfo_mutation_merged'
     DATASET_PATH = '/projects/ksun3/dwu25/apr_datasets_processing/java_mutation/data/classinfo_mutation'
     OUTPUT_PATH = '/projects/ksun3/dwu25/datasets/classinfo_mutation_test'
