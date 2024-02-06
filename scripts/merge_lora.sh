@@ -1,0 +1,1 @@
+python merge_lora_script.py  --model_path codellama/CodeLlama-7b-hf --lora_adapter /projects/ksun3/dwu25/trained_models/classinfo_mutation_output --save_path /projects/ksun3/dwu25/trained_models/classinfo_mutation_merged

@@ -8,7 +8,7 @@ import shutil
 import torch
 import transformers
 
-sys.path.append("..")
+sys.path.append("../..")
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from peft import PeftModel
 
