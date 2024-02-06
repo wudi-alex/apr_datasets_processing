@@ -238,7 +238,7 @@ if __name__ == '__main__':
     dataset = load_from_disk(DATASET_PATH)['test']
     run_generation(
         model_name=MODEL_PATH,
-        batch_size=64,
+        batch_size=16,
         dataset=dataset,
         input_name='input',
         output_path=OUTPUT_PATH,
