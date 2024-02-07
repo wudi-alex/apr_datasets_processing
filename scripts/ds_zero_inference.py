@@ -253,5 +253,5 @@ if __name__ == '__main__':
         # num_outputs=10,
         # early_stopping=True,
         # do_sample=True,
-        skip_special_tokens=True,
+        skip_special_tokens=False,
     )
