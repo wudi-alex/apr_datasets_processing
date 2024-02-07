@@ -233,14 +233,14 @@ def run_generation(
 
 if __name__ == '__main__':
     MODEL_PATH = '/projects/ksun3/dwu25/trained_models/classinfo_mutation_merged'
-    DATASET_PATH = '/projects/ksun3/dwu25/apr_datasets_processing/java_mutation/data/classinfo_mutation'
-    OUTPUT_PATH = '/projects/ksun3/dwu25/datasets/classinfo_mutation_test'
+    DATASET_PATH = '/projects/ksun3/dwu25/apr_datasets_processing/java_mutation/data/defects4j_context'
+    OUTPUT_PATH = '/projects/ksun3/dwu25/datasets/defects4j_context_gen'
     import numpy as np
 
     np.random.seed(42)
-    dataset = load_from_disk(DATASET_PATH)['test']
-    sample_indices = np.random.permutation(len(dataset))[:100]
-    dataset = dataset.select(sample_indices)
+    dataset = load_from_disk(DATASET_PATH)
+    # sample_indices = np.random.permutation(len(dataset))[:100]
+    # dataset = dataset.select(sample_indices)
     run_generation(
         model_name=MODEL_PATH,
         batch_size=16,
