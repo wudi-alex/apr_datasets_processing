@@ -250,8 +250,8 @@ if __name__ == '__main__':
         prompt_len=1024,
         gen_len=100,
         quant_bits=8,
-        # num_outputs=10,
-        # early_stopping=True,
-        # do_sample=True,
+        num_outputs=10,
+        early_stopping=True,
+        do_sample=True,
         skip_special_tokens=False,
     )
