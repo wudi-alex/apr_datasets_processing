@@ -243,7 +243,7 @@ if __name__ == '__main__':
     # dataset = dataset.select(sample_indices)
     run_generation(
         model_name=MODEL_PATH,
-        batch_size=8,
+        batch_size=4,
         dataset=dataset,
         input_name='input',
         output_path=OUTPUT_PATH,
