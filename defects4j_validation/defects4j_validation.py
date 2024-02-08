@@ -174,14 +174,14 @@ def parse_input(input):
         bug_id, start_line, end_line, path, patch)
 
 
-DATASET_NAME = 'defects4j_context_gen'
+DATASET_NAME = 'defects4j_context_gen_10'
 
 
 def gen_validate_dataset(dataset):
-    print(f"start generating...")
+    print(f"start validating...")
     updated_dataset = dataset.map(wrap_validate_func, num_proc=16)
     updated_dataset.save_to_disk(f"dataset_validated/{DATASET_NAME}_validation")
-    print(f"finish generating...")
+    print(f"finish validating...")
 
 
 dataset = load_from_disk(f'dataset_to_be_validated/{DATASET_NAME}')
