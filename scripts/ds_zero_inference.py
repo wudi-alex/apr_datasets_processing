@@ -202,7 +202,7 @@ def run_generation(
     generate_kwargs = dict(max_new_tokens=gen_len, do_sample=do_sample, num_beams=num_outputs, temperature=temperature,
                            num_return_sequences=num_outputs, early_stopping=early_stopping,
                            eos_token_id=tokenizer.eos_token_id,
-                           pad_token_id=tokenizer.pad_token_id, top_p=0.95)
+                           pad_token_id=tokenizer.pad_token_id,)
 
     def _batch_encode(inputs):
         input_tokens = tokenizer.batch_encode_plus(inputs, return_tensors="pt", padding="max_length",
@@ -222,7 +222,8 @@ def run_generation(
         if process_func:
             outputs = process_func(outputs)
         batch['gen'] = [outputs[i:i + num_outputs] for i in range(0, len(outputs), num_outputs)]
-        # print(batch['gen_patch'])
+        print([i.replace(batch['input'], '').replace('<s>', '').replace('</s>', '').replace('<unk>', '') for i in
+               batch['gen']])
         return batch
 
     print(f"start generating...")
@@ -248,11 +249,11 @@ if __name__ == '__main__':
         input_name='input',
         output_path=OUTPUT_PATH,
         prompt_len=1024,
-        gen_len=100,
+        gen_len=256,
         skip_special_tokens=False,
         quant_bits=8,
         num_outputs=10,
-        early_stopping=False,
+        early_stopping=True,
         do_sample=True,
-        temperature=0.8,
+        # temperature=0.8,
     )
