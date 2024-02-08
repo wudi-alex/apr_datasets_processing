@@ -202,7 +202,10 @@ def run_generation(
     generate_kwargs = dict(max_new_tokens=gen_len, do_sample=do_sample, num_beams=num_outputs, temperature=temperature,
                            num_return_sequences=num_outputs, early_stopping=early_stopping,
                            eos_token_id=tokenizer.eos_token_id,
-                           pad_token_id=tokenizer.pad_token_id, )
+                           pad_token_id=tokenizer.pad_token_id,
+                           diversity_penalty=1.0,  # 增加多样性惩罚
+                           top_k=50,  # 仅考虑概率最高的50个词
+                           top_p=0.95)
 
     def _batch_encode(inputs):
         input_tokens = tokenizer.batch_encode_plus(inputs, return_tensors="pt", padding="max_length",
@@ -255,5 +258,5 @@ if __name__ == '__main__':
         num_outputs=10,
         early_stopping=True,
         do_sample=True,
-        # temperature=0.8,
+        temperature=0.8,
     )
