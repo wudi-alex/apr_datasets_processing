@@ -203,7 +203,6 @@ def run_generation(
                            num_return_sequences=num_outputs, early_stopping=early_stopping,
                            eos_token_id=tokenizer.eos_token_id,
                            pad_token_id=tokenizer.pad_token_id,
-                           diversity_penalty=1.0,  # 增加多样性惩罚
                            top_k=50,  # 仅考虑概率最高的50个词
                            top_p=0.95)
 
