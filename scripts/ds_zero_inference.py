@@ -193,6 +193,7 @@ def run_generation(
             quant_group_size=quant_group_size,
             pin_memory=pin_memory
         )
+        model.config.pad_token = tokenizer.pad_token = tokenizer.unk_token
 
     if kv_offload:
         model.set_kv_cache_offload(True, gen_len, pin_kv_cache, async_kv_offload)
@@ -257,5 +258,5 @@ if __name__ == '__main__':
         num_outputs=10,
         early_stopping=True,
         do_sample=True,
-        temperature=0.8,
+        # temperature=0.8,
     )
