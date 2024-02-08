@@ -73,7 +73,7 @@ def get_ds_model(
             "enabled": dtype == torch.bfloat16,
         },
         "zero_optimization": {
-            "stage": 2,
+            "stage": 1,
             "stage3_prefetch_bucket_size": 2 * hidden_size * hidden_size,  # 0,
             "stage3_param_persistence_threshold": hidden_size,
             "stage3_max_live_parameters": 2 * hidden_size * hidden_size,
