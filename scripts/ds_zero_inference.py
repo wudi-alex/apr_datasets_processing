@@ -222,7 +222,7 @@ def run_generation(
         if process_func:
             outputs = process_func(outputs)
         batch['gen'] = [outputs[i:i + num_outputs] for i in range(0, len(outputs), num_outputs)]
-        print([i.replace(batch[0]['input'], '').replace('<s>', '').replace('</s>', '').replace('<unk>', '') for i in
+        print([i.replace('<s>', '').replace('</s>', '').replace('<unk>', '') for i in
                batch['gen'][0]])
         return batch
 
