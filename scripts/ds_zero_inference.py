@@ -248,6 +248,7 @@ def run_generation(
         if process_func:
             outputs = process_func(outputs)
         batch['gen'] = [outputs[i:i + num_outputs] for i in range(0, len(outputs), num_outputs)]
+        print(batch['gen'])
         return batch
 
     def _batch_encode(inputs, max_len):
@@ -288,7 +289,7 @@ if __name__ == '__main__':
     gen_dataset = load_from_disk(DATASET_PATH)
     run_generation(
         model_name=MODEL_PATH,
-        batch_size=8,
+        batch_size=12,
         dataset=gen_dataset,
         input_name='input',
         output_path=OUTPUT_PATH,
