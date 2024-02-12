@@ -134,7 +134,6 @@ def run_generation(
         dataset,
         input_name,
         output_path,
-        prompt_len,
         gen_len,
         num_outputs=1,
         temperature=1.0,
@@ -208,17 +207,30 @@ def run_generation(
                            # top_p=0.95
                            )
 
-    def _batch_encode(inputs):
-        input_tokens = tokenizer.batch_encode_plus(inputs, return_tensors="pt", padding="max_length",
-                                                   max_length=prompt_len, truncation=True)
-        for t in input_tokens:
-            if torch.is_tensor(input_tokens[t]):
-                input_tokens[t] = input_tokens[t].to(torch.cuda.current_device())
-        return input_tokens
+    def split_dataset_based_on_length():
+        # 计算长度的分位数
+        lengths = dataset[input_name].map(lambda x: len(x), batched=False)
+        q50, q80, q95 = lengths.quantile(q=[0.5, 0.8, 0.95])
 
-    def _batch_gen(batch):
+        # 根据分位数分割数据集
+        splits = {
+            'q1': dataset.filter(lambda x: len(x[input_name]) <= q50),
+            'q2': dataset.filter(lambda x: q50 < len(x[input_name]) <= q80),
+            'q3': dataset.filter(lambda x: q80 < len(x[input_name]) <= q95),
+            'q4': dataset.filter(lambda x: len(x[input_name]) > q95),
+        }
+        return splits
+
+    def find_max_length_for_subdataset(subdataset):
+        # 找到子数据集中最长的文本样本
+        max_length_sample = max(subdataset[input_name], key=len)
+        # 对最长的样本进行编码，确定max_length
+        encoded_length = len(tokenizer.encode(max_length_sample))
+        return encoded_length + 1  # 加1以适应最长样本
+
+    def _batch_gen(batch, max_len):
         inputs = batch[input_name]
-        input_tokens = _batch_encode(inputs).to("cuda")
+        input_tokens = _batch_encode(inputs, max_len)
         with torch.no_grad():
             output_ids = model.generate(**input_tokens, **generate_kwargs)
 
@@ -226,12 +238,31 @@ def run_generation(
         if process_func:
             outputs = process_func(outputs)
         batch['gen'] = [outputs[i:i + num_outputs] for i in range(0, len(outputs), num_outputs)]
-        print([i.replace('<s>', '').replace('</s>', '').replace('<unk>', '') for i in
-               batch['gen'][0]])
         return batch
 
-    print(f"start generating...")
-    updated_dataset = dataset.map(_batch_gen, batched=True, batch_size=batch_size)
+    def _batch_encode(inputs, max_len):
+        input_tokens = tokenizer.batch_encode_plus(inputs, return_tensors="pt", padding="max_length",
+                                                   max_length=max_len, truncation=True)
+        for t in input_tokens:
+            if torch.is_tensor(input_tokens[t]):
+                input_tokens[t] = input_tokens[t].to(torch.cuda.current_device())
+        return input_tokens
+
+    splits = split_dataset_based_on_length()
+
+    # 对每个子数据集应用生成函数并合并
+    updated_dataset = None
+    for split_name, split_dataset in splits.items():
+        max_length = find_max_length_for_subdataset(split_dataset)
+        print(f'processing split: {split_name}, max_length: {max_length}')
+        processed_split = split_dataset.map(lambda batch: _batch_gen(batch, max_length), batched=True,
+                                            batch_size=batch_size)
+        if updated_dataset is None:
+            updated_dataset = processed_split
+        else:
+            updated_dataset = updated_dataset.concatenate(processed_split)
+
+    # 保存最终数据集
     updated_dataset.save_to_disk(f"{output_path}")
     print(f"{output_path} dataset saved")
 
@@ -243,16 +274,15 @@ if __name__ == '__main__':
     import numpy as np
 
     np.random.seed(42)
-    dataset = load_from_disk(DATASET_PATH)
+    gen_dataset = load_from_disk(DATASET_PATH)
     # sample_indices = np.random.permutation(len(dataset))[:100]
     # dataset = dataset.select(sample_indices)
     run_generation(
         model_name=MODEL_PATH,
         batch_size=4,
-        dataset=dataset,
+        dataset=gen_dataset,
         input_name='input',
         output_path=OUTPUT_PATH,
-        prompt_len=1024,
         gen_len=256,
         skip_special_tokens=False,
         quant_bits=8,
