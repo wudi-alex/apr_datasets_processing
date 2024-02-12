@@ -24,6 +24,7 @@ from transformers.deepspeed import HfDeepSpeedConfig
 
 from utils import (GB, get_quant_config, meta_to_cpu, )
 from datasets import load_from_disk
+import numpy as np
 
 deepspeed.init_distributed()
 
@@ -208,9 +209,14 @@ def run_generation(
                            )
 
     def split_dataset_based_on_length():
-        # 计算长度的分位数
-        lengths = dataset[input_name].map(lambda x: len(x), batched=False)
-        q50, q80, q95 = lengths.quantile(q=[0.5, 0.8, 0.95])
+        # 计算长度
+        lengths = dataset.map(lambda examples: {"length": len(examples[input_name])}, batched=True)
+
+        # 获取长度列
+        lengths_list = lengths['length']
+
+        # 计算分位数
+        q50, q80, q95 = np.percentile(lengths_list, [50, 80, 95])
 
         # 根据分位数分割数据集
         splits = {
