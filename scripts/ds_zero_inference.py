@@ -136,6 +136,7 @@ def run_generation(
         input_name,
         output_path,
         gen_len,
+        num_beams=None,
         num_outputs=1,
         temperature=1.0,
         do_sample=False,
@@ -152,6 +153,8 @@ def run_generation(
         disk_offload=False,
         skip_special_tokens=False,
         process_func=None,
+        top_k=50,
+        top_p=0.95,
 ):
     # Load tokenizer
     config = get_model_config(model_name)
@@ -200,12 +203,12 @@ def run_generation(
 
     model.config.pad_token = tokenizer.pad_token
 
-    generate_kwargs = dict(max_new_tokens=gen_len, do_sample=do_sample, num_beams=num_outputs, temperature=temperature,
+    generate_kwargs = dict(max_new_tokens=gen_len, do_sample=do_sample, num_beams=num_beams, temperature=temperature,
                            num_return_sequences=num_outputs, early_stopping=early_stopping,
                            eos_token_id=tokenizer.eos_token_id,
                            pad_token_id=tokenizer.pad_token_id,
-                           # top_k=50,  # 仅考虑概率最高的50个词
-                           # top_p=0.95
+                           top_k=top_k,
+                           top_p=top_p
                            )
 
     def split_dataset_based_on_length():
@@ -299,5 +302,5 @@ if __name__ == '__main__':
         num_outputs=10,
         early_stopping=True,
         do_sample=True,
-        # temperature=0.8,
+        temperature=0.8,
     )
