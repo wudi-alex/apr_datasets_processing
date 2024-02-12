@@ -210,7 +210,11 @@ def run_generation(
 
     def split_dataset_based_on_length():
         # 计算长度
-        lengths = dataset.map(lambda examples: {"length": len(examples[input_name])}, batched=True)
+        def length(sample):
+            sample['length'] = len(sample[input_name])
+            return sample
+
+        lengths = dataset.map(length)
 
         # 获取长度列
         lengths_list = lengths['length']
