@@ -136,7 +136,7 @@ def run_generation(
         input_name,
         output_path,
         gen_len,
-        num_beams=None,
+        num_beams=1,
         num_outputs=1,
         temperature=1.0,
         do_sample=False,
