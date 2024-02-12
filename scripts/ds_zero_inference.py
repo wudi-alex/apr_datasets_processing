@@ -274,22 +274,21 @@ def run_generation(
 
 
 if __name__ == '__main__':
-    MODEL_PATH = '/projects/ksun3/dwu25/trained_models/classinfo_mutation_merged'
-    DATASET_PATH = '/projects/ksun3/dwu25/apr_datasets_processing/java_mutation/data/defects4j_context'
-    OUTPUT_PATH = '/projects/ksun3/dwu25/datasets/defects4j_context_gen'
-    import numpy as np
+    # MODEL_PATH = '/projects/ksun3/dwu25/trained_models/classinfo_mutation_merged'
+    # DATASET_PATH = '/projects/ksun3/dwu25/apr_datasets_processing/java_mutation/data/defects4j_context'
+    # OUTPUT_PATH = '/projects/ksun3/dwu25/datasets/defects4j_context_gen'
+    MODEL_PATH = 'codellama/CodeLlama-7b-hf'
+    DATASET_PATH = '/projects/ksun3/dwu25/apr_datasets_processing/java_mutation/data/defects4j_vanilla'
+    OUTPUT_PATH = '/projects/ksun3/dwu25/datasets/defects4j_vanilla_gen_10'
 
-    np.random.seed(42)
     gen_dataset = load_from_disk(DATASET_PATH)
-    # sample_indices = np.random.permutation(len(dataset))[:100]
-    # dataset = dataset.select(sample_indices)
     run_generation(
         model_name=MODEL_PATH,
-        batch_size=4,
+        batch_size=8,
         dataset=gen_dataset,
         input_name='input',
         output_path=OUTPUT_PATH,
-        gen_len=256,
+        gen_len=128,
         skip_special_tokens=False,
         quant_bits=8,
         num_outputs=10,
