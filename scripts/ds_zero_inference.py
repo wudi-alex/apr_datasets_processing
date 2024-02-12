@@ -299,7 +299,6 @@ if __name__ == '__main__':
         skip_special_tokens=False,
         quant_bits=8,
         num_outputs=10,
-        early_stopping=True,
         do_sample=True,
         temperature=0.8,
         top_p=0.95,
