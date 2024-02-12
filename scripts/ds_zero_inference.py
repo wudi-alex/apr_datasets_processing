@@ -153,7 +153,7 @@ def run_generation(
         disk_offload=False,
         skip_special_tokens=False,
         process_func=None,
-        top_k=50,
+        top_k=1,
         top_p=0.95,
 ):
     # Load tokenizer
@@ -251,7 +251,6 @@ def run_generation(
         if process_func:
             outputs = process_func(outputs)
         batch['gen'] = [outputs[i:i + num_outputs] for i in range(0, len(outputs), num_outputs)]
-        print(batch['gen'])
         return batch
 
     def _batch_encode(inputs, max_len):
@@ -303,4 +302,5 @@ if __name__ == '__main__':
         early_stopping=True,
         do_sample=True,
         temperature=0.8,
+        top_p=0.95,
     )
