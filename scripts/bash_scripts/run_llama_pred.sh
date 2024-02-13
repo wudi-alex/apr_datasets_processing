@@ -1,4 +1,4 @@
-python3 llama2_pred.py \
+python3 ../llama2_pred.py \
     --base_model_path codellama/CodeLlama-7b-hf \
     --lora_path /projects/ksun3/dwu25/repairllama/repairllama-lora \
     --data_path /projects/ksun3/dwu25/apr_datasets_processing/repairllama \
