@@ -1,4 +1,5 @@
 import os
+
 os.environ['TRANSFORMERS_CACHE'] = '/datasets/Large_Language_Models'
 
 import json
@@ -10,10 +11,10 @@ import torch
 import transformers
 from peft import PeftModel
 from transformers import (
-    AutoTokenizer, 
-    AutoModelForCausalLM, 
-    GenerationConfig, 
-    HfArgumentParser, 
+    AutoTokenizer,
+    AutoModelForCausalLM,
+    GenerationConfig,
+    HfArgumentParser,
     BitsAndBytesConfig,
 )
 from tqdm import tqdm
@@ -85,7 +86,7 @@ def main():
     device = "cuda" if torch.cuda.is_available() else "cpu"
     model.config.pad_token = tokenizer.pad_token = tokenizer.unk_token
     model.to(device)
-    
+
     if generation_args.do_sample:
         if generation_args.only_do_beam:
             # Beam search
@@ -110,7 +111,7 @@ def main():
     with open(data_path / data_args.test_file, 'r') as tf:
         for sample in tf.readlines():
             buggy_code_list.append(json.loads(sample))
-    
+
     # If we want to generate 100 patches for a bug, we need to generate 10 times due to the limited GPU resources.
     if generation_args.only_do_temp or generation_args.only_do_topk or generation_args.only_do_topp:
         gen_epoch = int(generation_args.request_num / generation_args.sub_request_num)
@@ -139,8 +140,10 @@ def main():
                 continue
             output_ids = outputs[:, inputs_len:]
             print('gen 1 sample')
-            output_diff = tokenizer.batch_decode(output_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)
-            original_outputs = tokenizer.batch_decode(outputs, skip_special_tokens=True, clean_up_tokenization_spaces=False)
+            output_diff = tokenizer.batch_decode(output_ids, skip_special_tokens=True,
+                                                 clean_up_tokenization_spaces=False)
+            original_outputs = tokenizer.batch_decode(outputs, skip_special_tokens=True,
+                                                      clean_up_tokenization_spaces=False)
 
             output_dict = {}
 
@@ -149,7 +152,9 @@ def main():
                     "original_output": original_outputs[i],
                     "output_patch": output_diff[i],
                 }
-            print(output_diff)
+            for i in output_diff:
+                print('\n', i)
+
             tmp_dict['bug_id'] = sample['bug_id']
             tmp_dict['output'] = output_dict
             tmp_dict['buggy_code'] = buggy_code
@@ -174,20 +179,21 @@ def main():
                     break
                 output_ids = outputs[:, inputs_len:]
 
-                output_diff = tokenizer.batch_decode(output_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)
-                original_outputs = tokenizer.batch_decode(outputs, skip_special_tokens=True, clean_up_tokenization_spaces=False)
+                output_diff = tokenizer.batch_decode(output_ids, skip_special_tokens=True,
+                                                     clean_up_tokenization_spaces=False)
+                original_outputs = tokenizer.batch_decode(outputs, skip_special_tokens=True,
+                                                          clean_up_tokenization_spaces=False)
                 temp_list.append((original_outputs, output_diff))
-
 
             output_dict = {}
 
             for i in range(len(temp_list)):
                 for j in range(len(temp_list[i][1])):
-                    output_dict[i*10+j] = {
+                    output_dict[i * 10 + j] = {
                         "original_output": temp_list[i][0][j],
                         "output_diff": temp_list[i][1][j],
                     }
-            
+
             tmp_dict['bug_id'] = sample['bug_id']
             tmp_dict['output'] = output_dict
 
@@ -202,4 +208,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
