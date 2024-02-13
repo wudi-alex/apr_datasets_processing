@@ -23,7 +23,7 @@ from transformers import (AutoConfig, AutoTokenizer, AutoModelForCausalLM, CodeL
 from transformers.deepspeed import HfDeepSpeedConfig
 
 from utils import (GB, get_quant_config, meta_to_cpu, )
-from datasets import load_from_disk
+from datasets import load_from_disk, concatenate_datasets
 import numpy as np
 
 deepspeed.init_distributed()
@@ -276,7 +276,7 @@ def run_generation(
             updated_dataset = processed_split
             base_length = max_length
         else:
-            updated_dataset = updated_dataset.concatenate(processed_split)
+            updated_dataset = concatenate_datasets([updated_dataset, processed_split])
 
     # 保存最终数据集
     updated_dataset.save_to_disk(f"{output_path}")
