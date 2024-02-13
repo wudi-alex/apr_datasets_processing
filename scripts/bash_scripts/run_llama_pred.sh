@@ -1,8 +1,8 @@
 python3 ../llama_pred.py \
     --base_model_path codellama/CodeLlama-7b-hf \
     --lora_path /projects/ksun3/dwu25/repairllama/repairllama-lora \
-    --data_path /projects/ksun3/dwu25/repairllama/results/defects4j/repairllama/lora \
-    --test_file RepairLLaMA_defects4j_f2f_bugs_results_ir4_or2.jsonl \
+    --data_path /projects/ksun3/dwu25/apr_datasets_processing/repairllama \
+    --test_file defects4j_with_buggyline.jsonl \
     --output_file defects4j_with_buggyline_repairllama_gen.jsonl \
     --is_lora True \
     --max_length 1024 \
