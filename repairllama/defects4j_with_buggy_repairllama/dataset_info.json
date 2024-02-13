@@ -2,11 +2,7 @@
   "citation": "",
   "description": "",
   "features": {
-    "prompt": {
-      "dtype": "string",
-      "_type": "Value"
-    },
-    "target": {
+    "input": {
       "dtype": "string",
       "_type": "Value"
     },
@@ -14,7 +10,7 @@
       "dtype": "string",
       "_type": "Value"
     },
-    "target_patch": {
+    "target": {
       "dtype": "string",
       "_type": "Value"
     }
