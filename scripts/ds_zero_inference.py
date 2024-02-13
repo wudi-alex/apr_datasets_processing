@@ -251,6 +251,13 @@ def run_generation(
         if process_func:
             outputs = process_func(outputs)
         batch['gen'] = [outputs[i:i + num_outputs] for i in range(0, len(outputs), num_outputs)]
+
+        for index in range(0, len(outputs), num_outputs):
+            input = batch[input_name][int(index / num_outputs)]
+            for patch in outputs[index:index + num_outputs]:
+                patch = patch.replace(input, '').replace('<s>', '').replace('</s>', '').replace('<unk>', '').replace(
+                    '<EOT>', '')
+                print(patch)
         return batch
 
     def _batch_encode(inputs, max_len):
@@ -294,8 +301,8 @@ if __name__ == '__main__':
 
     # repairllama & buggylines
     MODEL_PATH = '/projects/ksun3/dwu25/trained_models/repairllama'
-    DATASET_PATH = '/projects/ksun3/dwu25/apr_datasets_processing/java_mutation/data/defects4j_buggyline'
-    OUTPUT_PATH = '/projects/ksun3/dwu25/datasets/repairllama_defects4j_buggyline_gen'
+    DATASET_PATH = '/projects/ksun3/dwu25/apr_datasets_processing/repairllama/defects4j_with_buggy_repairllama'
+    OUTPUT_PATH = '/projects/ksun3/dwu25/datasets/repairllama_defects4j_buggyline_gen_10'
 
     gen_dataset = load_from_disk(DATASET_PATH)
     run_generation(
