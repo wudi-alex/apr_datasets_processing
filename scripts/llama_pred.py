@@ -148,18 +148,18 @@ def main():
             # original_outputs = tokenizer.batch_decode(outputs, skip_special_tokens=True,
             #                                           clean_up_tokenization_spaces=False)
 
-            output_dict = {}
-
-            for i in range(len(output_diff)):
-                output_dict[i] = {
-                    # "original_output": original_outputs[i],
-                    "output_patch": output_diff[i],
-                }
+            # output_dict = {}
+            #
+            # for i in range(len(output_diff)):
+            #     output_dict[i] = {
+            #         # "original_output": original_outputs[i],
+            #         "output_patch": output_diff[i],
+            #     }
 
             tmp_dict['bug_id'] = sample['bug_id']
-            tmp_dict['output'] = output_dict
-            tmp_dict['buggy_code'] = buggy_code
-            tmp_dict['gold_patch'] = sample['target']
+            tmp_dict['gen'] = output_diff
+            tmp_dict['input'] = buggy_code
+            tmp_dict['fix_code'] = sample['fix_code']
 
             llama2_output.append(tmp_dict)
             print(f'{index} sample generated.')
