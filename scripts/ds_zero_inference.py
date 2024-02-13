@@ -318,7 +318,7 @@ if __name__ == '__main__':
         do_sample=True,
         # num_beams=10,
         # early_stopping=True,
-        temperature=0.8,
-        top_p=0.95,
+        temperature=0.7,
+        top_p=0.9,
         top_k=50,
     )
