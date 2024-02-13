@@ -149,7 +149,7 @@ def main():
                     "original_output": original_outputs[i],
                     "output_patch": output_diff[i],
                 }
-            
+            print(output_diff)
             tmp_dict['bug_id'] = sample['bug_id']
             tmp_dict['output'] = output_dict
             tmp_dict['buggy_code'] = buggy_code
@@ -177,7 +177,7 @@ def main():
                 output_diff = tokenizer.batch_decode(output_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)
                 original_outputs = tokenizer.batch_decode(outputs, skip_special_tokens=True, clean_up_tokenization_spaces=False)
                 temp_list.append((original_outputs, output_diff))
-                print(output_diff)
+
 
             output_dict = {}
 
