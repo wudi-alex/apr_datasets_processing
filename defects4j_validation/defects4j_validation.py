@@ -167,14 +167,16 @@ def parse_input(input):
         buggy_info['projectName'].split('_')[1], buggy_info['startLine'], buggy_info['endLine'], buggy_info[
         'filePath'].replace(f"/Users/alex.wu/defects4j_projects_buggy/{buggy_info['projectName']}", '')
     end_line = str(int(end_line) - 1)
-    patch=[i.replace(input['input'], '').replace('<s>','').replace('</s>','').replace('<unk>','') for i in input['gen']]
+    patch = [
+        i.replace(input['input'], '').replace('<s>', '').replace('</s>', '').replace('<unk>', '').replace('<EOT>', '')
+        for i in input['gen']]
     return (
         proj.capitalize().replace('Jacksondatabind', 'JacksonDatabind').replace('Jacksoncore', 'JacksonCore').replace(
             'Jacksonxml', 'JacksonXml').replace('Jxpath', 'JxPath'),
         bug_id, start_line, end_line, path, patch)
 
 
-DATASET_NAME = 'defects4j_context_gen_10'
+DATASET_NAME = 'defects4j_vanilla_gen_10'
 
 
 def gen_validate_dataset(dataset):
