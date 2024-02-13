@@ -22,7 +22,7 @@ module load gnu10
 source 	~/Anaconda/etc/profile.d/conda.sh
 conda activate dschat
 
-accelerate launch llama_sft.py \
+accelerate launch ../llama_sft.py \
     --model_name_or_path /projects/ksun3/dwu25/trained_models/repairllama \
     --data_path /projects/ksun3/dwu25/apr_datasets_processing/java_mutation/data/classinfo_mutation \
     --is_lora True \
