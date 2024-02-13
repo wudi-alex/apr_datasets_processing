@@ -307,7 +307,7 @@ if __name__ == '__main__':
     gen_dataset = load_from_disk(DATASET_PATH)
     run_generation(
         model_name=MODEL_PATH,
-        batch_size=16,
+        batch_size=8,
         dataset=gen_dataset,
         input_name='input',
         output_path=OUTPUT_PATH,
