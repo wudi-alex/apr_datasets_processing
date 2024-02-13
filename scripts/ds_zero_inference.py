@@ -287,9 +287,15 @@ if __name__ == '__main__':
     # MODEL_PATH = '/projects/ksun3/dwu25/trained_models/classinfo_mutation_merged'
     # DATASET_PATH = '/projects/ksun3/dwu25/apr_datasets_processing/java_mutation/data/defects4j_context'
     # OUTPUT_PATH = '/projects/ksun3/dwu25/datasets/defects4j_context_gen'
-    MODEL_PATH = 'codellama/CodeLlama-7b-hf'
-    DATASET_PATH = '/projects/ksun3/dwu25/apr_datasets_processing/java_mutation/data/defects4j_vanilla'
-    OUTPUT_PATH = '/projects/ksun3/dwu25/datasets/defects4j_vanilla_gen_10'
+    # # codellama & vanilla
+    # MODEL_PATH = 'codellama/CodeLlama-7b-hf'
+    # DATASET_PATH = '/projects/ksun3/dwu25/apr_datasets_processing/java_mutation/data/defects4j_vanilla'
+    # OUTPUT_PATH = '/projects/ksun3/dwu25/datasets/defects4j_vanilla_gen_10'
+
+    # repairllama & buggylines
+    MODEL_PATH = '/projects/ksun3/dwu25/trained_models/repairllama'
+    DATASET_PATH = '/projects/ksun3/dwu25/apr_datasets_processing/java_mutation/data/defects4j_buggyline'
+    OUTPUT_PATH = '/projects/ksun3/dwu25/datasets/repairllama_defects4j_buggyline_gen'
 
     gen_dataset = load_from_disk(DATASET_PATH)
     run_generation(
@@ -303,6 +309,8 @@ if __name__ == '__main__':
         quant_bits=8,
         num_outputs=10,
         do_sample=True,
-        temperature=0.8,
-        top_p=0.95,
+        num_beams=10,
+        early_stopping=True,
+        # temperature=0.8,
+        # top_p=0.95,
     )
