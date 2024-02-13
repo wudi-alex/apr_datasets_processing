@@ -265,13 +265,16 @@ def run_generation(
 
     # 对每个子数据集应用生成函数并合并
     updated_dataset = None
+    base_length = None
     for split_name, split_dataset in splits.items():
         max_length = find_max_length_for_subdataset(split_dataset)
         print(f'processing split: {split_name}, max_length: {max_length}')
         processed_split = split_dataset.map(lambda batch: _batch_gen(batch, max_length), batched=True,
-                                            batch_size=batch_size)
+                                            batch_size=int(
+                                                batch_size / max_length * base_length) if base_length else batch_size)
         if updated_dataset is None:
             updated_dataset = processed_split
+            base_length = max_length
         else:
             updated_dataset = updated_dataset.concatenate(processed_split)
 
@@ -291,7 +294,7 @@ if __name__ == '__main__':
     gen_dataset = load_from_disk(DATASET_PATH)
     run_generation(
         model_name=MODEL_PATH,
-        batch_size=4,
+        batch_size=32,
         dataset=gen_dataset,
         input_name='input',
         output_path=OUTPUT_PATH,
