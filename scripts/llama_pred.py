@@ -117,7 +117,7 @@ def main():
 
     for sample in tqdm(buggy_code_list, desc="Generating..."):
         tmp_dict = {}
-        buggy_code = sample["input"]
+        buggy_code = sample["buggy_code"]
 
         inputs = tokenizer(buggy_code, return_tensors='pt')
         inputs_len = inputs.input_ids.shape[1]
@@ -153,7 +153,7 @@ def main():
             tmp_dict['bug_id'] = sample['bug_id']
             tmp_dict['output'] = output_dict
             tmp_dict['buggy_code'] = buggy_code
-            tmp_dict['gold_patch'] = sample['target']
+            # tmp_dict['gold_patch'] = sample['target']
 
             llama2_output.append(tmp_dict)
         else:

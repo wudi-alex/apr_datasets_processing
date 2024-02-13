@@ -1,8 +1,8 @@
 python3 ../llama_pred.py \
     --base_model_path codellama/CodeLlama-7b-hf \
     --lora_path /projects/ksun3/dwu25/repairllama/repairllama-lora \
-    --data_path /projects/ksun3/dwu25/apr_datasets_processing/repairllama \
-    --test_file defects4j_with_buggyline.jsonl \
+    --data_path /projects/ksun3/dwu25/repairllama/results/defects4j/repairllama/lora \
+    --test_file RepairLLaMA_defects4j_f2f_bugs_results_ir4_or2.jsonl \
     --output_file defects4j_with_buggyline_repairllama_gen.jsonl \
     --is_lora True \
     --max_length 1024 \
@@ -12,8 +12,8 @@ python3 ../llama_pred.py \
     --only_do_topp False \
     --only_do_topk False \
     --only_do_temp False \
-    --num_beams 3 \
+    --num_beams 10 \
     --temperature 0.8 \
     --top_k 0 \
     --top_p 0.95 \
-    --request_num 3 \
+    --request_num 10 \
