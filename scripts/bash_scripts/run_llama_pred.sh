@@ -3,8 +3,8 @@ python3 ../llama_pred.py \
     --lora_path /projects/ksun3/dwu25/repairllama/repairllama-lora \
     --data_path /projects/ksun3/dwu25/apr_datasets_processing/repairllama \
     --test_file defects4j_with_buggyline.jsonl \
-    --output_file defects4j_with_buggyline_repairllama_gen.jsonl \
-    --is_lora False \
+    --output_file  /projects/ksun3/dwu25/datasets/repairllama-gen-10 \
+    --is_lora True \
     --max_length 1024 \
     --max_new_tokens 256 \
     --do_sample True \

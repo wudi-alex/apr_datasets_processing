@@ -17,6 +17,7 @@ from transformers import (
     HfArgumentParser,
     BitsAndBytesConfig,
 )
+from datasets import *
 from tqdm import tqdm
 
 
@@ -201,10 +202,12 @@ def main():
             if len(output_dict) == generation_args.request_num:
                 llama2_output.append(tmp_dict)
 
-    with open(data_args.output_file, 'w') as pd_file:
-        for each in llama2_output:
-            pd_file.write(json.dumps(each))
-            pd_file.write('\n')
+    # with open(data_args.output_file, 'w') as pd_file:
+    #     for each in llama2_output:
+    #         pd_file.write(json.dumps(each))
+    #         pd_file.write('\n')
+    dataset = Dataset.from_list(llama2_output)
+    dataset.save_to_disk(data_args.output_file)
 
 
 if __name__ == "__main__":
