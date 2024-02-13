@@ -116,7 +116,9 @@ def main():
     if generation_args.only_do_temp or generation_args.only_do_topk or generation_args.only_do_topp:
         gen_epoch = int(generation_args.request_num / generation_args.sub_request_num)
 
-    for sample in tqdm(buggy_code_list, desc="Generating..."):
+    index = 0
+    for sample in tqdm(buggy_code_list):
+        index += 1
         tmp_dict = {}
         buggy_code = sample["input"]
 
@@ -139,21 +141,19 @@ def main():
                 print("The code sequence of bug {} is too long, {}.".format(sample['bug_id'], inputs_len))
                 continue
             output_ids = outputs[:, inputs_len:]
-            print('gen 1 sample')
+
             output_diff = tokenizer.batch_decode(output_ids, skip_special_tokens=True,
                                                  clean_up_tokenization_spaces=False)
-            original_outputs = tokenizer.batch_decode(outputs, skip_special_tokens=True,
-                                                      clean_up_tokenization_spaces=False)
+            # original_outputs = tokenizer.batch_decode(outputs, skip_special_tokens=True,
+            #                                           clean_up_tokenization_spaces=False)
 
             output_dict = {}
 
             for i in range(len(output_diff)):
                 output_dict[i] = {
-                    "original_output": original_outputs[i],
+                    # "original_output": original_outputs[i],
                     "output_patch": output_diff[i],
                 }
-            for i in output_diff:
-                print('\n', i)
 
             tmp_dict['bug_id'] = sample['bug_id']
             tmp_dict['output'] = output_dict
@@ -161,6 +161,7 @@ def main():
             tmp_dict['gold_patch'] = sample['target']
 
             llama2_output.append(tmp_dict)
+            print(f'{index} sample generated.')
         else:
             temp_list = []
             for _ in range(gen_epoch):
