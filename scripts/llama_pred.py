@@ -138,7 +138,7 @@ def main():
                 print("The code sequence of bug {} is too long, {}.".format(sample['bug_id'], inputs_len))
                 continue
             output_ids = outputs[:, inputs_len:]
-
+            print('gen 1 sample')
             output_diff = tokenizer.batch_decode(output_ids, skip_special_tokens=True, clean_up_tokenization_spaces=False)
             original_outputs = tokenizer.batch_decode(outputs, skip_special_tokens=True, clean_up_tokenization_spaces=False)
 

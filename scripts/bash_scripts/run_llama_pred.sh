@@ -12,8 +12,8 @@ python3 ../llama_pred.py \
     --only_do_topp False \
     --only_do_topk False \
     --only_do_temp False \
-    --num_beams 10 \
+    --num_beams 3 \
     --temperature 0.8 \
     --top_k 0 \
     --top_p 0.95 \
-    --request_num 10 \
+    --request_num 3 \
