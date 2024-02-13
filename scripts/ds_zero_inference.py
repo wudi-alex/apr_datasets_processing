@@ -316,7 +316,7 @@ if __name__ == '__main__':
         quant_bits=8,
         num_outputs=10,
         do_sample=True,
-        num_beams=100,
+        num_beams=10,
         early_stopping=True,
         # temperature=0.7,
         # top_p=0.9,
