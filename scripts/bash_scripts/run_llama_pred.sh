@@ -1,10 +1,10 @@
 python3 ../llama_pred.py \
-    --base_model_path codellama/CodeLlama-7b-hf \
+    --base_model_path /projects/ksun3/dwu25/trained_models/repairllama \
     --lora_path /projects/ksun3/dwu25/repairllama/repairllama-lora \
     --data_path /projects/ksun3/dwu25/apr_datasets_processing/repairllama \
     --test_file defects4j_with_buggyline.jsonl \
     --output_file defects4j_with_buggyline_repairllama_gen.jsonl \
-    --is_lora True \
+    --is_lora False \
     --max_length 1024 \
     --max_new_tokens 256 \
     --do_sample True \
