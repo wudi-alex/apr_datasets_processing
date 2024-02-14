@@ -31,8 +31,7 @@ class ModelArguments:
 @dataclass
 class DataArguments:
     data_path: str = field(default=None, metadata={"help": "Path to the training data."})
-    test_file: str = field(default="test.json", metadata={"help": "Test file name."})
-    output_file: str = field(default=None, metadata={"help": "Output file name."})
+    output_path: str = field(default=None, metadata={"help": "Output file name."})
 
 
 @dataclass
@@ -106,21 +105,13 @@ def main():
                 top_p=generation_args.top_p if generation_args.only_do_topp else None,
             )
 
-    buggy_code_list = []
-    llama2_output = []
-    data_path = Path(data_args.data_path)
-    with open(data_path / data_args.test_file, 'r') as tf:
-        for sample in tf.readlines():
-            buggy_code_list.append(json.loads(sample))
+    dataset = load_from_disk(data_args.data_path)
 
     # If we want to generate 100 patches for a bug, we need to generate 10 times due to the limited GPU resources.
     if generation_args.only_do_temp or generation_args.only_do_topk or generation_args.only_do_topp:
         gen_epoch = int(generation_args.request_num / generation_args.sub_request_num)
 
-    index = 0
-    for sample in tqdm(buggy_code_list):
-        index += 1
-        tmp_dict = {}
+    def _gen_patch(sample):
         buggy_code = sample["input"]
 
         inputs = tokenizer(buggy_code, return_tensors='pt')
@@ -140,29 +131,12 @@ def main():
                     )
             except:
                 print("The code sequence of bug {} is too long, {}.".format(sample['bug_id'], inputs_len))
-                continue
-            output_ids = outputs[:, inputs_len:]
 
+            output_ids = outputs[:, inputs_len:]
             output_diff = tokenizer.batch_decode(output_ids, skip_special_tokens=True,
                                                  clean_up_tokenization_spaces=False)
-            # original_outputs = tokenizer.batch_decode(outputs, skip_special_tokens=True,
-            #                                           clean_up_tokenization_spaces=False)
-
-            # output_dict = {}
-            #
-            # for i in range(len(output_diff)):
-            #     output_dict[i] = {
-            #         # "original_output": original_outputs[i],
-            #         "output_patch": output_diff[i],
-            #     }
-
-            tmp_dict['bug_id'] = sample['bug_id']
-            tmp_dict['gen'] = output_diff
-            tmp_dict['input'] = buggy_code
-            tmp_dict['fix_code'] = sample['fix_code']
-
-            llama2_output.append(tmp_dict)
-            print(f'{index} sample generated.')
+            print(output_diff)
+            sample['gen'] = output_diff
         else:
             temp_list = []
             for _ in range(gen_epoch):
@@ -183,31 +157,14 @@ def main():
 
                 output_diff = tokenizer.batch_decode(output_ids, skip_special_tokens=True,
                                                      clean_up_tokenization_spaces=False)
-                original_outputs = tokenizer.batch_decode(outputs, skip_special_tokens=True,
-                                                          clean_up_tokenization_spaces=False)
-                temp_list.append((original_outputs, output_diff))
+                temp_list += output_diff
 
-            output_dict = {}
+            sample['gen'] = temp_list
 
-            for i in range(len(temp_list)):
-                for j in range(len(temp_list[i][1])):
-                    output_dict[i * 10 + j] = {
-                        "original_output": temp_list[i][0][j],
-                        "output_diff": temp_list[i][1][j],
-                    }
+        return sample
 
-            tmp_dict['bug_id'] = sample['bug_id']
-            tmp_dict['output'] = output_dict
-
-            if len(output_dict) == generation_args.request_num:
-                llama2_output.append(tmp_dict)
-
-    # with open(data_args.output_file, 'w') as pd_file:
-    #     for each in llama2_output:
-    #         pd_file.write(json.dumps(each))
-    #         pd_file.write('\n')
-    dataset = Dataset.from_list(llama2_output)
-    dataset.save_to_disk(data_args.output_file)
+    dataset = dataset.map(_gen_patch)
+    dataset.save_to_disk(data_args.output_path)
 
 
 if __name__ == "__main__":
