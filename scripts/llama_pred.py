@@ -135,7 +135,10 @@ def main():
             output_ids = outputs[:, inputs_len:]
             output_diff = tokenizer.batch_decode(output_ids, skip_special_tokens=True,
                                                  clean_up_tokenization_spaces=False)
-            print(output_diff[0])
+            print('\n=====================')
+            for i in output_diff:
+                print('----------------')
+                print(i)
             sample['gen'] = output_diff
         else:
             temp_list = []
