@@ -161,22 +161,16 @@ def wrap_validate_func(batch):
         return None
 
 
-def parse_input(input):
-    buggy_info = input['buggyInfo']
-    proj, bug_id, start_line, end_line, path = buggy_info['projectName'].split('_')[0], \
-        buggy_info['projectName'].split('_')[1], buggy_info['startLine'], buggy_info['endLine'], buggy_info[
-        'filePath'].replace(f"/Users/alex.wu/defects4j_projects_buggy/{buggy_info['projectName']}", '')
-    end_line = str(int(end_line) - 1)
-    patch = [
-        i.replace(input['input'], '').replace('<s>', '').replace('</s>', '').replace('<unk>', '').replace('<EOT>', '')
-        for i in input['gen']]
-    return (
-        proj.capitalize().replace('Jacksondatabind', 'JacksonDatabind').replace('Jacksoncore', 'JacksonCore').replace(
-            'Jacksonxml', 'JacksonXml').replace('Jxpath', 'JxPath'),
-        bug_id, start_line, end_line, path, patch)
+def parse_input(sample):
+    proj, bug_id, start_line, end_line, path, patch = sample['bug_id'].split('-')[0], \
+        sample['bug_id'].split('-')[1], sample['start_line'], sample['end_line'], sample['path'], sample['gen']
+    # patch = [
+    #     i.replace(sample['input'], '').replace('<s>', '').replace('</s>', '').replace('<unk>', '').replace('<EOT>', '')
+    #     for i in sample['gen']]
+    return proj, bug_id, start_line, end_line, path, patch
 
 
-DATASET_NAME = 'defects4j_vanilla_gen_10'
+DATASET_NAME = 'defects4j_vanilla_gen'
 
 
 def gen_validate_dataset(dataset):
