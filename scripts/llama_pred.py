@@ -131,6 +131,7 @@ def main():
                     )
             except:
                 print("The code sequence of bug {} is too long, {}.".format(sample['bug_id'], inputs_len))
+                sample['gen'] = None
                 return sample
 
             output_ids = outputs[:, inputs_len:]
