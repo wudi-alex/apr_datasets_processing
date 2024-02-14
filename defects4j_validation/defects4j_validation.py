@@ -158,7 +158,8 @@ def wrap_validate_func(batch):
         return validate_defects4j(batch)
     except Exception as e:
         print(f"Error: {e}")
-        return None
+        batch['test_res'] = None
+        return batch
 
 
 def parse_input(sample):
