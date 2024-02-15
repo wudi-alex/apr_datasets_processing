@@ -165,5 +165,3 @@ cython_debug/
 *.pkl
 coconut/data/
 */data/
-defects4j_validation/dataset_to_be_validated
-defects4j_validation/dataset_validated

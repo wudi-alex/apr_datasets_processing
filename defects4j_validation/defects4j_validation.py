@@ -176,7 +176,7 @@ DATASET_NAME = 'defects4j_vanilla_gen'
 
 def gen_validate_dataset(dataset):
     print(f"start validating...")
-    updated_dataset = dataset.map(wrap_validate_func, num_proc=16)
+    updated_dataset = dataset.map(wrap_validate_func, num_proc=400)
     updated_dataset.save_to_disk(f"dataset_validated/{DATASET_NAME}_validation")
     print(f"finish validating...")
 
