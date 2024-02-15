@@ -104,7 +104,7 @@ def validate_defects4j(input):
         if correctness is None:
             # pass at least one more trigger case
             # have to pass all non-trigger
-            out, err = defects4j_command.defects4j_test_suite(tmp_dir, timeout=min(200, int(1.5 * standard_time)))
+            out, err = defects4j_command.defects4j_test_suite(tmp_dir, timeout=max(600, int(1.5 * standard_time)))
 
             if 'TIMEOUT' in str(err) or 'TIMEOUT' in str(out):
                 print(plausible, total, rank, 'Time out for patch: ', patch,
@@ -176,7 +176,7 @@ DATASET_NAME = 'defects4j_vanilla_gen'
 
 def gen_validate_dataset(dataset):
     print(f"start validating...")
-    updated_dataset = dataset.map(wrap_validate_func, num_proc=400)
+    updated_dataset = dataset.map(wrap_validate_func, num_proc=20)
     updated_dataset.save_to_disk(f"dataset_validated/{DATASET_NAME}_validation")
     print(f"finish validating...")
 
