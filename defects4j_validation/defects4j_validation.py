@@ -80,7 +80,7 @@ def validate_defects4j(input):
         if standard_time >= 10 and len(triggers) <= 5:
             for trigger in triggers:
                 out, err = defects4j_command.defects4j_test_one(tmp_dir, trigger,
-                                                                timeout=min(200, int(1.5 * standard_time)))
+                                                                timeout=600)
                 if 'TIMEOUT' in str(err) or 'TIMEOUT' in str(out):
                     print(plausible, total, rank, 'Time out for patch: ', patch,
                           str(int(time.time() - start_time)) + 's')
