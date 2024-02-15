@@ -2,7 +2,7 @@ python3 ../llama_pred.py \
     --base_model_path /projects/ksun3/dwu25/trained_models/repairllama \
     --lora_path /projects/ksun3/dwu25/trained_models/repairllama_classinfo_finetune_lora \
     --data_path /projects/ksun3/dwu25/apr_datasets_processing/classinfo_defects4j_comparison/datasets/defects4j_classinfo \
-    --output_path /projects/ksun3/dwu25/datasets/defects4j_repairllama_lora_classinfo_gen \
+    --output_path /projects/ksun3/dwu25/datasets/defects4j_repairllama_classinfo_gen \
     --is_lora False \
     --max_length 2048 \
     --max_new_tokens 256 \
