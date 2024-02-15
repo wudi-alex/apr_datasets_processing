@@ -169,7 +169,7 @@ def parse_input(sample):
     # patch = [
     #     i.replace(sample['input'], '').replace('<s>', '').replace('</s>', '').replace('<unk>', '').replace('<EOT>', '')
     #     for i in sample['gen']]
-    return proj, bug_id, start_line, end_line, path, patch
+    return proj, bug_id, start_line, end_line, path, [i.replace('</s>', '') for i in patch]
 
 
 DATASET_NAME = 'defects4j_vanilla_gen'

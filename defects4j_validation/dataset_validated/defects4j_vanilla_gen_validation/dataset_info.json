@@ -178,7 +178,23 @@
         "_type": "Value"
       },
       "_type": "Sequence"
-    }
+    },
+    "test_res": [
+      {
+        "correctness": {
+          "dtype": "string",
+          "_type": "Value"
+        },
+        "patch": {
+          "dtype": "string",
+          "_type": "Value"
+        },
+        "test_message": {
+          "dtype": "string",
+          "_type": "Value"
+        }
+      }
+    ]
   },
   "homepage": "",
   "license": ""
