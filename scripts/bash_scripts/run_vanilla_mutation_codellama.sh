@@ -24,13 +24,13 @@ conda activate dschat
 
 accelerate launch ../llama_sft.py \
     --model_name_or_path codellama/CodeLlama-7b-hf \
-    --data_path /projects/ksun3/dwu25/apr_datasets_processing/java_mutation/data/vanilla_mutation_dataset \
+    --data_path /projects/ksun3/dwu25/apr_datasets_processing/java_mutation/data/vanilla_mutation \
     --is_lora True \
     --model_max_length 1280 \
     --do_train \
     --do_eval True \
     --fp16 True \
-    --output_dir /projects/ksun3/dwu25/trained_models/codellama_classinfo_finetune_lora \
+    --output_dir /projects/ksun3/dwu25/trained_models/codellama_vanilla_mutation_lora \
     --num_train_epochs 1 \
     --per_device_train_batch_size 32 \
     --per_device_eval_batch_size 1 \
@@ -41,4 +41,4 @@ accelerate launch ../llama_sft.py \
     --learning_rate 5e-4 \
     --lr_scheduler_type "cosine" \
     --logging_steps 10 \
-    --ddp_find_unused_parameters False \
+    --ddp_find_unused_parameters False
