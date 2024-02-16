@@ -32,13 +32,13 @@ accelerate launch ../llama_sft.py \
     --fp16 True \
     --output_dir /projects/ksun3/dwu25/trained_models/codellama_vanilla_mutation_lora \
     --num_train_epochs 1 \
-    --per_device_train_batch_size 32 \
+    --per_device_train_batch_size 64 \
     --per_device_eval_batch_size 1 \
     --gradient_accumulation_steps 1 \
     --evaluation_strategy "no" \
     --eval_steps 1000 \
     --save_steps 1000 \
-    --learning_rate 5e-4 \
+    --learning_rate 5e-5 \
     --lr_scheduler_type "cosine" \
     --logging_steps 10 \
     --ddp_find_unused_parameters False
