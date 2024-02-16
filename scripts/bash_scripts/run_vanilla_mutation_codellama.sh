@@ -24,7 +24,7 @@ conda activate dschat
 
 accelerate launch ../llama_sft.py \
     --model_name_or_path codellama/CodeLlama-7b-hf \
-    --data_path /projects/ksun3/dwu25/apr_datasets_processing/java_mutation/data/vanilla_mutation \
+    --data_path /projects/ksun3/dwu25/apr_datasets_processing/java_mutation/data/vanilla_mutation_dataset \
     --is_lora True \
     --model_max_length 1280 \
     --do_train \
