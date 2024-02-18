@@ -172,7 +172,7 @@
       "dtype": "string",
       "_type": "Value"
     },
-    "output": {
+    "gen": {
       "feature": {
         "dtype": "string",
         "_type": "Value"
