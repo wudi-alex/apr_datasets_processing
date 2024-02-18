@@ -1,0 +1,185 @@
+{
+  "citation": "",
+  "description": "",
+  "features": {
+    "methodInformation": {
+      "variableTypes": {
+        "feature": {
+          "dtype": "string",
+          "_type": "Value"
+        },
+        "_type": "Sequence"
+      },
+      "methodHeader": {
+        "dtype": "string",
+        "_type": "Value"
+      },
+      "parameterTypes": {
+        "feature": {
+          "dtype": "string",
+          "_type": "Value"
+        },
+        "_type": "Sequence"
+      },
+      "allInvolvedTypes": {
+        "feature": {
+          "dtype": "string",
+          "_type": "Value"
+        },
+        "_type": "Sequence"
+      },
+      "methodName": {
+        "dtype": "string",
+        "_type": "Value"
+      },
+      "classMemberTypes": {
+        "feature": {
+          "dtype": "string",
+          "_type": "Value"
+        },
+        "_type": "Sequence"
+      }
+    },
+    "involvedTypesInformation": [
+      {
+        "memberVariables": {
+          "feature": {
+            "dtype": "string",
+            "_type": "Value"
+          },
+          "_type": "Sequence"
+        },
+        "memberMethods": {
+          "feature": {
+            "dtype": "string",
+            "_type": "Value"
+          },
+          "_type": "Sequence"
+        },
+        "className": {
+          "dtype": "string",
+          "_type": "Value"
+        },
+        "classHead": {
+          "dtype": "string",
+          "_type": "Value"
+        }
+      }
+    ],
+    "filePath": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "classInformation": {
+      "memberVariables": {
+        "feature": {
+          "dtype": "string",
+          "_type": "Value"
+        },
+        "_type": "Sequence"
+      },
+      "memberMethods": {
+        "feature": {
+          "dtype": "string",
+          "_type": "Value"
+        },
+        "_type": "Sequence"
+      },
+      "className": {
+        "dtype": "string",
+        "_type": "Value"
+      },
+      "classHead": {
+        "dtype": "string",
+        "_type": "Value"
+      }
+    },
+    "buggyInfo": {
+      "endLine": {
+        "dtype": "int64",
+        "_type": "Value"
+      },
+      "mutationStrategy": {
+        "dtype": "string",
+        "_type": "Value"
+      },
+      "filePath": {
+        "dtype": "string",
+        "_type": "Value"
+      },
+      "startLine": {
+        "dtype": "int64",
+        "_type": "Value"
+      },
+      "originalCode": {
+        "dtype": "string",
+        "_type": "Value"
+      },
+      "buggyCode": {
+        "dtype": "string",
+        "_type": "Value"
+      },
+      "methodPreContext": {
+        "dtype": "string",
+        "_type": "Value"
+      },
+      "projectName": {
+        "dtype": "string",
+        "_type": "Value"
+      },
+      "methodPostContext": {
+        "dtype": "string",
+        "_type": "Value"
+      }
+    },
+    "projectName": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "bug_id": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "start_line": {
+      "dtype": "int64",
+      "_type": "Value"
+    },
+    "end_line": {
+      "dtype": "int64",
+      "_type": "Value"
+    },
+    "path": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "fix_code": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "pre_context": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "post_context": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "buggy_code": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "input": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "gen": {
+      "feature": {
+        "dtype": "string",
+        "_type": "Value"
+      },
+      "_type": "Sequence"
+    }
+  },
+  "homepage": "",
+  "license": ""
+}

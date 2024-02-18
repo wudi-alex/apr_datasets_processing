@@ -172,7 +172,7 @@ def parse_input(sample):
     return proj, bug_id, start_line, end_line, path, [i.replace('</s>', '') for i in patch]
 
 
-DATASET_NAME = 'defects4j_codellama_lora_classinfo_gen'
+DATASET_NAME = 'defects4j_repairllama_classinfo_gen'
 
 
 def gen_validate_dataset(dataset):
