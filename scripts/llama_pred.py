@@ -13,6 +13,7 @@ from peft import PeftModel
 from transformers import (
     AutoTokenizer,
     AutoModelForCausalLM,
+    CodeLlamaTokenizer,
     GenerationConfig,
     HfArgumentParser,
     BitsAndBytesConfig,
@@ -81,7 +82,8 @@ def main():
             model_args.base_model_path,
             torch_dtype=torch.float16,
         )
-    tokenizer = AutoTokenizer.from_pretrained(model_args.base_model_path, trust_remote_code=True)
+    # tokenizer = AutoTokenizer.from_pretrained(model_args.base_model_path, trust_remote_code=True)
+    tokenizer = CodeLlamaTokenizer.from_pretrained(model_args.base_model_path, trust_remote_code=True)
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
     model.config.pad_token = tokenizer.pad_token = tokenizer.unk_token
